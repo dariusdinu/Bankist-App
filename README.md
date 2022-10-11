@@ -1,5 +1,5 @@
 
-  ## Bankist App ##
+  # Bankist App #
   
 This is an app that I have developed based on a Udemy course entitled "The Complete JavaScript Course". It is a banking app that requires you to login (choose between the four preset accounts) and it displays multiple pieces of information such as the total balance, the current date, the movements, the name or the interest. On the right side there are three options:
 - Transfer money - make a deposit to another account
