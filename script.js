@@ -90,7 +90,7 @@ const formatMovementDate = function (date, locale) {
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed <= 2) return `${daysPassed} days ago`;
+  if (daysPassed <= 6) return `${daysPassed} days ago`;
 
   // const day = `${date.getDate()}`.padStart(2, '0');
   // const month = `${date.getMonth() + 1}`.padStart(2, '0');
