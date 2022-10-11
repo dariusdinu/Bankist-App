@@ -86,16 +86,11 @@ const formatMovementDate = function (date, locale) {
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  // console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 6) return `${daysPassed} days ago`;
 
-  // const day = `${date.getDate()}`.padStart(2, '0');
-  // const month = `${date.getMonth() + 1}`.padStart(2, '0');
-  // const year = date.getFullYear();
-  // return `${day}/${month}/${year}`;
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
@@ -155,7 +150,6 @@ const calcDisplaySummary = function (acc) {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      // console.log(arr);
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
@@ -245,9 +239,8 @@ btnLogin.addEventListener('click', function (e) {
       hour: 'numeric',
       minute: 'numeric',
       day: 'numeric',
-      month: 'numeric', // options: 2-digit, numeric
-      year: 'numeric', // options: 2-digit
-      // weekday: 'long',
+      month: 'numeric',
+      year: 'numeric',
     };
 
     // const locale = navigator.language;
@@ -257,13 +250,6 @@ btnLogin.addEventListener('click', function (e) {
       options
     ).format(now);
     // iso language code table --> lingoes.net
-
-    // const day = `${now.getDate()}`.padStart(2, '0');
-    // const month = `${now.getMonth() + 1}`.padStart(2, '0');
-    // const year = now.getFullYear();
-    // const hour = `${now.getHours()}`.padStart(2, '0');
-    // const min = `${now.getMinutes()}`.padStart(2, '0');
-    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
     // day/month/year
 
@@ -345,8 +331,6 @@ btnClose.addEventListener('click', function (e) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
     );
-    console.log(index);
-    // .indexOf(23)
 
     // Delete account
     accounts.splice(index, 1);
@@ -364,293 +348,3 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-////////////////////////////////////////////////
-// Converting and Checking Numbers
-
-// console.log(23 === 23.0);
-
-// // Base 10 - 0 to 9   1/10 = 0.1, 3/10 = 3.3333333
-// // Binary base 2 - 0 1
-// console.log(0.1 + 0.2); // 0.3000000000000004
-// console.log(0.1 + 0.2 === 0.3); // false
-// console.log(' ');
-// // Conversion
-// console.log(Number('23')); // Number
-// console.log(+'23'); // Automatically converts to Number
-// console.log(' ');
-// // Parsing
-// console.log(Number.parseInt('30px')); // 30
-// console.log(Number.parseInt('e23')); // NaN
-// console.log(' ');
-// // !! It needs to start with a number in order to work
-
-// // parseInt has a second argument --> regex
-// // implicitly the regex is 10
-// console.log(Number.parseInt('30px', 10)); // 30
-// console.log(Number.parseInt('e23', 10)); // NaN
-// console.log(' ');
-// console.log(Number.parseInt('  2.5rem ')); // 2
-// console.log(Number.parseFloat('  2.5rem  ')); // 2.5
-// // It accepts white space
-// console.log(parseFloat('  2.5rem  ')); // 2.5
-// // We say that 'Number' provides a 'namespace'
-// console.log(' ');
-// // Check if value is NaN (literally)
-// console.log(Number.isNaN('20')); // false
-// console.log(Number.isNaN(20)); // false
-// console.log(Number.isNaN(+'20X')); // true
-// console.log(Number.isNaN(23 / 0)); // false
-// console.log(' ');
-// // The isFinite method is actually the best method to check if something is a number or not
-// console.log(Number.isFinite('20')); // false
-// console.log(Number.isFinite(20)); // true
-// console.log(Number.isFinite(+'20X')); // false
-// console.log(Number.isFinite(23 / 0)); // false
-// console.log(' ');
-// console.log(Number.isInteger(23)); // true
-// console.log(Number.isInteger(23.0)); // true
-// console.log(Number.isInteger(23 / 0)); // false;
-
-////////////////////////////////////////////////
-// Math and Rounding
-
-// console.log(Math.sqrt(25));
-// console.log(25 ** (1 / 2)); // square root
-// console.log(8 ** (1 / 3)); // cubic root
-// console.log(' ');
-// console.log(Math.max(5, 18, 23, 11, 2)); // 23
-// console.log(Math.max(5, 18, '23', 11, 2)); // 23 --> does type conversion
-// console.log(Math.max(5, 18, '23px', 11, 25)); // NaN
-// console.log(' ');
-// console.log(Math.min(5, 18, 23, 11, 2)); // 2
-// console.log(' ');
-// console.log(Math.PI * Number.parseFloat('10px') ** 2); // 314.1592653589793
-// console.log(' ');
-// console.log(Math.trunc(Math.random() * 6) + 1); // values from 1 and 6
-
-// const randomInt = (min, max) =>
-//   Math.floor(Math.random() * (max - min) + 1) + min;
-// // 0...1 -> 0...(max - min) -> 0 + min...(max - min) + min -> min...max
-// console.log(randomInt(10, 20));
-
-// // Round integers
-// console.log(Math.round(23.3)); // 23
-// console.log(Math.round(23.9)); // 24
-// console.log(' ');
-// console.log(Math.ceil(23.3)); // 24
-// console.log(Math.ceil(23.9)); // 24
-// console.log(' ');
-// console.log(Math.floor(23.3)); // 23
-// console.log(Math.floor('23.9')); // 23
-// console.log(' ');
-// console.log(Math.trunc(23.3)); // 23
-// console.log(' ');
-// console.log(Math.trunc(-23.3)); // -23
-// console.log(Math.floor(-23.3)); // -24
-// console.log(' ');
-// // Rounding decimals
-// console.log((2.7).toFixed(0)); // 3 --> STRING
-// console.log((2.7).toFixed(3)); // 2.700 --> STRING
-// console.log((2.345).toFixed(2)); // 2.35 --> STRING
-// console.log(+(2.345).toFixed(2)); // 2.35 --> Number
-// console.log(' ');
-////////////////////////////////////////////////
-// The Remainder Operator
-
-// console.log(5 % 2); // 1
-// console.log(5 / 2); // 2.5
-
-// console.log(8 % 3); // 2
-// console.log(8 / 3); // 2.6666666666666665
-
-// console.log(6 % 2); // 0
-// console.log(6 / 2); // 3
-
-// console.log(7 % 2); // 1
-// console.log(7 / 2); // 3.5
-
-// const isEven = n => n % 2 === 0;
-// console.log(isEven(8)); // true
-// console.log(isEven(23)); // false
-// console.log(isEven(514)); // true
-
-// labelBalance.addEventListener('click', function () {
-//   [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
-//     if (i % 2 === 0) {
-//       row.style.backgroundColor = 'orangered';
-//     }
-//     if (i % 3 === 0) {
-//       row.style.backgroundColor = 'blue';
-//     }
-//   });
-// });
-// // Every Nth time --> i % N === 0
-
-//////////////////////////////////////////////
-// Numeric Separators
-
-// 287,460,000,000
-// We can use '_' in order to make large numbers easier to read
-// JavaScript completely ignores the '_'
-// const diameter = 287_460_000_000;
-// console.log(diameter); // 287460000000
-
-// // 345.99
-// const price = 345_99;
-// console.log(price);
-
-// const transferFee1 = 15_00; // 15$
-// const transferFee2 = 1_500; // 1.5$
-// // transferFee1 and transferFee2 are exactly the same number, but they represent different things to us
-
-// const PI = 3.1415;
-// // 3._1415 --> X
-// // 3_.1415 --> X
-// // _3.1415 --> X
-// // 3.1415_ --> X
-// // 3.14__15 --> X
-// console.log(PI);
-
-// console.log(Number('230_000')); // NaN
-
-////////////////////////////////////////////////
-// Working with BigInt
-
-// console.log(2 ** 53 - 1); // 9007199254740991
-// console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
-// // Anything beyond this becomes unsafe
-// // Somethimes it works because the JavaScript engine uses some tricks behind the scenes, however they don't work everytime
-// // If we go beyond the maximum number, we lose precision
-
-// console.log(2 ** 53 + 1); // 9007199254740992
-// console.log(2 ** 53 + 2); // 9007199254740994
-// console.log(2 ** 53 + 3); // 9007199254740996
-// console.log(2 ** 53 + 4); // 9007199254740996
-
-// console.log(57438275982743809573975984379); // 5.743827598274381e+28 --> does not have precision
-// console.log(57438275982743809573975984379n); // --> BigInt
-// console.log(BigInt(57438275982)); // --> for smaller numbers (doesn't work every single time, because it still needs to store the number before doing the conversion)
-
-// // Operations (they only work between bigInts)
-// console.log(10000n + 10000n); // 20000n
-// console.log(10000n + 4683287487829876578798775646n); // 4683287487829876578798785646n
-// // console.log(Math.sqrt(16n)); // --> does not work
-
-// const huge = 4345678987545678967n;
-// const num = 23;
-// console.log(huge * BigInt(num)); // --> This works
-
-// // Exceptions
-// console.log(20n > 15); // true
-// console.log(20n === 20); // false
-// console.log(typeof 20n); // bigint
-// console.log(20n == '20'); // true
-
-// console.log(huge + ' is REALLY big!!!');
-
-// // Divisions
-// console.log(11n / 3n); // 3n
-// console.log(10 / 3); // 3.3333333333333335
-// // console.log(10 / 3n); // error
-
-////////////////////////////////////////////////
-// Creating Dates
-
-// // Create a date
-// const now = new Date();
-// console.log(now);
-// console.log(' ');
-// console.log(new Date('Oct 02 2022 19:16:52'));
-// console.log(new Date('December 24, 2015'));
-// console.log(new Date(account1.movementsDates[0]));
-// console.log(' ');
-// // The month is zero based
-// console.log(new Date(2037, 10, 19, 15, 23, 5)); // Nov 10, 2037, 15h:23m:05s
-// console.log(' ');
-// console.log(new Date(2037, 10, 33)); // Dec 3, 2037
-// console.log(' ');
-// console.log(new Date(0)); // Jan 01 1970
-// console.log(new Date(3 * 24 * 60 * 60 * 1000)); // Jan 4 1970 --> 259200000 = timestamp
-// console.log(' ');
-// // Working with dates
-// const future = new Date(2037, 10, 19, 15, 23);
-// console.log(future);
-// console.log(future.getFullYear()); // 2037
-// console.log(future.getMonth()); // 10 --> Month - 1
-// console.log(future.getDate()); // 19 --> Day
-// console.log(future.getDay()); // 4 --> Thursday
-// console.log(future.getHours()); // 15
-// console.log(future.getMinutes()); // 23
-// console.log(future.getSeconds()); // 0
-// console.log(future.toISOString()); // 2037-11-19T13:23:00.000Z
-// console.log(future.getTime()); // 2142249780000 = timestamp (the number of miliseconds since Jan 01 1970)
-// console.log(' ');
-// console.log(new Date(2142249780000)); // Thu Nov 19 2037 15:23:00 GMT+0200 (Eastern European Standard Time)
-// console.log(' ');
-// console.log(Date.now());
-// console.log(' ');
-// future.setFullYear(2040);
-// console.log(future); // Nov 19 2040
-// console.log(' ');
-
-////////////////////////////////////////////////
-// Operations with dates
-
-// const future = new Date(2037, 10, 19, 15, 23);
-// console.log(Number(future)); // 2142249780000 --> timestamp
-// console.log(+future); // 2142249780000
-
-// const calcDaysPassed = (date1, date2) =>
-//   Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
-
-// const days1 = calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 24));
-// console.log(days1); // 10
-
-////////////////////////////////////////////////
-// Internationalizing Numbers (Intl)
-
-// const num = 3884764.23;
-
-// const options = {
-//   style: 'currency', // percent, currency etc
-//   unit: 'mile-per-hour', // celsius, km-per-hour etc
-//   currency: 'EUR',
-//   // useGrouping: false, // --> without separators
-// };
-
-// console.log('UK:      ', new Intl.NumberFormat('en-UK', options).format(num));
-// console.log('Germany: ', new Intl.NumberFormat('de-DE', options).format(num));
-// console.log('Syria:   ', new Intl.NumberFormat('ar-SY', options).format(num));
-// console.log(
-//   navigator.language + '    ',
-//   new Intl.NumberFormat(navigator.language, options).format(num)
-// );
-
-////////////////////////////////////////////////
-// Timers: setTimeout and setInterval
-
-// setTimeout --> only executed once
-const ingredients = ['olives', 'spinach'];
-const pizzaTimer = setTimeout(
-  (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2} 🍕`),
-  3000,
-  ...ingredients
-);
-console.log('Waiting...');
-
-if (ingredients.includes('spinach')) clearTimeout(pizzaTimer); // nothing will be printed
-
-// setInterval
-setInterval(function () {
-  const now = new Date();
-  const hour = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-
-  console.log(`${hour}:${minutes}:${seconds}`);
-}, 1000);
